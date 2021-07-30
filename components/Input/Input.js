@@ -2,7 +2,27 @@ import React from "react";
 import inputSyles from "./Input.module.css";
 import Head from "next/head";
 
-const Input = ({ name, id, value, placeholder, type, icon }) => {
+const Input = ({
+  name,
+  id,
+  value,
+  placeholder,
+  type,
+  icon,
+  setEmail,
+  setPassword,
+  submitForm,
+}) => {
+  function onChangeHandler(event) {
+    if (setEmail) {
+      setEmail(event.target.value);
+    }
+
+    if (setPassword) {
+      setPassword(event.target.value);
+    }
+  }
+
   return (
     <>
       <Head>
@@ -19,6 +39,7 @@ const Input = ({ name, id, value, placeholder, type, icon }) => {
           name={name}
           placeholder={placeholder}
           value={value}
+          onChange={onChangeHandler}
         />
         <br />
       </div>

@@ -2,11 +2,16 @@ import Link from "next/link";
 import remark from "remark";
 import html from "remark-html";
 import Navigation from "../../../components/Navigation/Navigation";
+import LoggedInNav from "../../../components/Navigation/LoggedInNav";
 import SinglePost from "../../../components/SinglePost/SinglePost";
+
+import Cookies from "universal-cookie";
 const singlePost = ({ post }) => {
+  const cookies = new Cookies();
+  const cookie = cookies.get("jwtToken");
   return (
     <>
-      <Navigation />
+      {cookie ? <LoggedInNav /> : <Navigation />}
       <SinglePost post={post} />
 
       <Link href="/posts">

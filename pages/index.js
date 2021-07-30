@@ -1,10 +1,15 @@
 import Head from "next/head";
 import Profile from "../components/just";
 import Navigation from "../components/Navigation/Navigation";
+import LoggedInNav from "../components/Navigation/LoggedInNav";
+import Cookies from "universal-cookie";
+
 export default function Home({ allPostsData }) {
+  const cookies = new Cookies();
+  const cookie = cookies.get("jwtToken");
   return (
     <>
-      <Navigation />
+      {cookie ? <LoggedInNav /> : <Navigation />}
       <div className="container">
         <Head>
           <title>Create Next App</title>
