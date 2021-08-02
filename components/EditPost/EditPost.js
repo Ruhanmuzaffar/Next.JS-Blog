@@ -8,8 +8,8 @@ import LoggedInNav from "../Navigation/LoggedInNav";
 import Navigation from "../Navigation/Navigation";
 import Cookies from "universal-cookie";
 
-const EditPost = ({ post, props }) => {
-  console.log("post.>", post, "props.>>", props);
+const EditPost = ({ post }) => {
+  
   const router = useRouter();
   const cookies = new Cookies();
   const cookie = cookies.get("jwtToken");
@@ -29,7 +29,7 @@ const EditPost = ({ post, props }) => {
     formData.append("cover", cover);
     await axios
       .put(
-        "https://blogged-for-you.herokuapp.com/api/posts/${post.id}",
+        `https://blogged-for-you.herokuapp.com/api/posts/${post.id}`,
         formData,
         {
           headers: {
