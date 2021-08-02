@@ -1,18 +1,20 @@
 import React from "react";
 import { useState } from "react";
+import Link from "next/dist/client/link";
 import axios from "axios";
 import { useRouter } from "next/dist/client/router";
-import styles from "./CreatePost.module.css";
+import styles from "./EditPost.module.css";
 import LoggedInNav from "../Navigation/LoggedInNav";
 import Navigation from "../Navigation/Navigation";
 import Cookies from "universal-cookie";
 
-const CreatePost = () => {
+const EditPost = ({ post, props }) => {
+  console.log("post.>", post, "props.>>", props);
   const router = useRouter();
   const cookies = new Cookies();
   const cookie = cookies.get("jwtToken");
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [title, setTitle] = useState(`${post.title}`);
+  const [content, setContent] = useState(`${post.content}`);
   const [cover, setCover] = useState();
 
   const handleSubmit = async (event) => {
@@ -26,14 +28,18 @@ const CreatePost = () => {
     formData.append("content", content);
     formData.append("cover", cover);
     await axios
-      .post("https://blogged-for-you.herokuapp.com/api/posts/", formData, {
-        headers: {
-          Authorization: `Bearer ${cookie}`,
-          "Content-Type": "multipart/form-data",
-        },
-      })
+      .put(
+        "https://blogged-for-you.herokuapp.com/api/posts/${post.id}",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${cookie}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
       .catch((err) => console.log("Some error occured", err));
-    router.push("/posts");
+    router.push(`/posts/${post.id}`);
   };
   return (
     <>
@@ -47,6 +53,7 @@ const CreatePost = () => {
             name="title"
             id="title"
             onChange={(e) => setTitle(e.target.value)}
+            value={title}
           />
           <label htmlFor="content">content</label>
           <textarea
@@ -56,6 +63,7 @@ const CreatePost = () => {
             cols="30"
             rows="10"
             onChange={(e) => setContent(e.target.value)}
+            value={content}
           >
             Write your content here
           </textarea>
@@ -67,13 +75,16 @@ const CreatePost = () => {
             onChange={(e) => setCover(e.target.files[0])}
           />
           <input type="button" value="Sumbit" onClick={handleSubmit} />
+          <Link href={`/posts/${post.id}`}>
+            <a className="abutton grey">Cancel</a>
+          </Link>
         </form>
       </div>
     </>
   );
 };
 
-export default CreatePost;
+export default EditPost;
 
 /**
  * 

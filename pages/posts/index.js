@@ -42,13 +42,9 @@ const posts = ({ posts }) => {
   );
 };
 
-export async function getStaticProps() {
-  const res = await fetch(
-    `https://blogged-for-you.herokuapp.com/api/all-posts/`
-  );
-  const posts = await res.json();
+export async function getServerSideProps() {
   // for reading from file
-
+  const posts = await getPosts();
   return {
     props: {
       posts,
@@ -56,4 +52,12 @@ export async function getStaticProps() {
   };
 }
 
+async function getPosts() {
+  const res = await fetch(
+    `https://blogged-for-you.herokuapp.com/api/all-posts/`
+  );
+  const posts = await res.json();
+
+  return posts;
+}
 export default posts;

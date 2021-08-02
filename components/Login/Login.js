@@ -64,7 +64,6 @@ const Login = () => {
       <div className={inputStyles["form-wrapper"]}>
         <div className={inputStyles["formContainer"]}>
           <h2>Log in</h2>
-          <div>{cookies.length > 1 ? "a" : "b"}</div>
 
           <form>
             <br />

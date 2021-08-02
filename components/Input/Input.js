@@ -11,15 +11,22 @@ const Input = ({
   icon,
   setEmail,
   setPassword,
-  submitForm,
+  setPassword2,
+  setName,
 }) => {
   function onChangeHandler(event) {
+    if (setName) {
+      setName(event.target.value);
+    }
     if (setEmail) {
       setEmail(event.target.value);
     }
 
     if (setPassword) {
       setPassword(event.target.value);
+    }
+    if (setPassword2) {
+      setPassword2(event.target.value);
     }
   }
 

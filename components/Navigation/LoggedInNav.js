@@ -5,9 +5,9 @@ import Cookies from "universal-cookie";
 
 const LoggedInNav = () => {
   const cookies = new Cookies();
-  cookies.remove("jwtToken");
   const handleLogout = () => {
     // delete cookie
+    cookies.remove("jwtToken");
     console.log("logout pressed");
   };
   return (

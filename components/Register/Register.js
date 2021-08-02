@@ -2,8 +2,41 @@ import React from "react";
 import Head from "next/dist/next-server/lib/head";
 import Input from "../Input/Input";
 import registerStyles from "./Register.module.css";
+import axios from "axios";
+import { useState } from "react";
+import Cookies from "universal-cookie";
+let cookies = new Cookies();
+import { useRouter } from "next/router";
 
 const Register = () => {
+  // state
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
+
+  // router
+  const router = useRouter();
+
+  // handle register
+  const handleRegister = async (event) => {
+    event.preventDefault();
+
+    console.log("submit", name, password2, password, email);
+
+    await axios
+      .post("https://blogged-for-you.herokuapp.com/api/register", {
+        name,
+        email,
+        password,
+        password2,
+      })
+      .catch((err) => console.log("Some error occured", err));
+    router.push("/login");
+
+    // axios.post
+  };
   return (
     <>
       <Head>
@@ -13,16 +46,11 @@ const Register = () => {
         />
       </Head>
 
-      {/* navigation component here */}
-
-      {/* <% if(typeof(user) != 'undefined'){ %> <%- include('partials/loggedInView')
-    %> <% } else { %> <%- include('partials/notLoggedInView') %> <% } %> */}
-
       <div className={registerStyles["form-wrapper"]}>
         <div className={registerStyles["formContainer"]}>
           <h2>Register</h2>
           {/* <%- include ("./partials/messages") %> */}
-          <form action="/users/register" method="POST">
+          <form>
             <br />
 
             <label>Name </label>
@@ -33,6 +61,7 @@ const Register = () => {
               name="name"
               placeholder="Enter your name"
               icon="face"
+              setName={setName}
             />
 
             <br />
@@ -45,6 +74,7 @@ const Register = () => {
               name="email"
               placeholder="Enter your email"
               icon="email"
+              setEmail={setEmail}
             />
             <br />
 
@@ -58,6 +88,7 @@ const Register = () => {
               name="password"
               placeholder="Password"
               icon="lock"
+              setPassword={setPassword}
             />
 
             <br />
@@ -71,13 +102,14 @@ const Register = () => {
               name="password2"
               placeholder="Confirm Password"
               icon="lock"
+              setPassword2={setPassword2}
             />
 
             <p>
               Have an account?
               <a href="/users/login">login</a>
             </p>
-            <Input type="submit" value="Submit" />
+            <input type="button" value="Register" onClick={handleRegister} />
           </form>
         </div>
       </div>

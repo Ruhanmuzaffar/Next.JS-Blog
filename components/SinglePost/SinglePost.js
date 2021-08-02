@@ -6,7 +6,7 @@ import EditDelete from "./EditDelete";
 const SinglePost = ({ post }) => {
   const cookies = new Cookies();
   const cookie = cookies.get("jwtToken");
-  console.log("poss>>",typeof post.imageFileName);
+  console.log("poss>>", typeof post.imageFileName);
   return (
     <div className={styles.main} key={post.id}>
       <h3>{post.title}</h3>
@@ -26,7 +26,7 @@ const SinglePost = ({ post }) => {
         <div dangerouslySetInnerHTML={{ __html: post.content }}></div>
       </div>
 
-      {cookie ? <EditDelete /> : ""}
+      {cookie ? <EditDelete id={post.id} /> : ""}
     </div>
   );
 };
